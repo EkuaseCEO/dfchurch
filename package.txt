@@ -1,0 +1,61 @@
+npm i redux-persist react-router-dom react-quill react-icons react-circular-progressbar mongoose moment
+       <form className="flex max-w-md flex-col gap-4" onSubmit={handleSocial}>
+      <div className='flex flex-row'>
+        <div className="mb-2 mr-10 block">
+          <Label htmlFor="facebook">Facebook Link</Label>
+        </div>
+        <TextInput className='w-full' id="facebook" type="text" placeholder="facebook link"  
+        
+        value={formData.facebook}
+         onChange={(value) => {
+            setFormData(value)
+          }}
+        />
+      </div>
+      <div className='flex flex-row'>
+        <div className="mb-2 mr-10 block">
+          <Label htmlFor="instagram">Instagram Link</Label>
+        </div>
+        <TextInput id="instagram" className='w-full' type="text" placeholder="instagram link"  />
+      </div>
+      <div className='flex flex-row'>
+        <div className="mb-2 mr-10 block">
+          <Label htmlFor="youtube">Youtube Link</Label>
+        </div>
+        <TextInput id="youtube" className='w-full' type="text" placeholder="Youbube link"  />
+      </div>
+    
+      <Button type="submit">Update Socials</Button>
+         {publishError && (
+          <Alert className='mt-5' color='failure'>
+            {publishError}
+          </Alert>
+        )}
+    </form>
+
+
+      const handleSocial = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch(`/api/post/updateSetting/${formData.postIds}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setPublishError(data.message);
+        return;
+      }
+
+      if (res.ok) {
+        setPublishError(null);
+        setPublishError('Updated Successfully!');
+      }
+    } catch (error) {
+      // console.log(error)
+      setPublishError('Something went wrong');
+    }
+  };
