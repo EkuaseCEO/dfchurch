@@ -6,7 +6,6 @@ import DashPosts from '../components/DashPosts';
 import DashUsers from '../components/DashUsers';
 import DashComments from '../components/DashComments';
 import MyPosts from '../components/MyPosts';
-import Createposts from '../components/createposts';
 import Setting from '../components/Setting';
 import SocialMedia from '../components/SocialMedia';
 import ChurchInformation from '../components/churchinformation';
