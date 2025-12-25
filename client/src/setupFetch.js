@@ -7,7 +7,7 @@ window.fetch = async (input, options = {}) => {
   let url = input;
 
   // Prepend base URL if the input starts with /api
-  if (typeof input === "string" && input.startsWith("/api")) {
+  if (typeof input === "string") {
     url = `${API_BASE_URL}${input}`;
   }
 

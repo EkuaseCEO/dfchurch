@@ -7,7 +7,7 @@ export default function YoutubeLive() {
           useEffect(() => {
           const fetchPosts = async () => {
             // const res = await fetch('/api/post/getSettings');
-            const res = await apiFetch('/post/getSettings');
+            const res = await apiFetch('/api/post/getSettings');
             const data = await res.json();
             // console.log(data.Settings[0])
             setSettings(data.Settings[0]);
