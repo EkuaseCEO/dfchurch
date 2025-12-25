@@ -27,7 +27,8 @@ app.use(cookieParser());
 app.use(cors({
   origin: [
     "http://localhost:5173",           // local dev
-    "https://dfchurch-304a0.web.app", // Firebase hosting
+    // "https://dfchurch-304a0.web.app", // Firebase hosting
+    "https://dfc-lcek.web.app", // Firebase hosting
     "https://your-project-id.firebaseapp.com"
   ],
   credentials: true

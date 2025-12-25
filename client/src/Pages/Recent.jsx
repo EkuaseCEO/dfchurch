@@ -3,13 +3,14 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import CallToAction from '../components/CallToAction';
 import PostCard from '../components/PostCard';
+import { apiFetch } from '../../../src/api';
 
 export default function Recent() {
   const [posts, setPosts] = useState([]);
 
     useEffect(() => {
     const fetchPosts = async () => {
-      const res = await fetch('/api/post/getPosts');
+      const res = await apiFetch('/api/post/getPosts');
       const data = await res.json();
       setPosts(data.posts);
     };
