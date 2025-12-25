@@ -4,6 +4,22 @@ Ekuaseimasuen@gmail.com for cloudinary.com
 
 Albertcanada312@gmail.com for render.com
 
-Email for this firebase is Albertcanada315@gmail.com
+Email for this firebase is Albertcanada312@gmail.com
 
 Albertcanada312@gmail.com for github
+
+https://dfc-lcek.onrender.com
+
+
+npm install -g firebase-tools   # anywhere
+cd dfc/client                   # go to frontend folder
+firebase login                  # log in to Firebase
+firebase init hosting           # set up hosting
+npm run build                   # build React app
+firebase deploy                 # deploy to Firebase
+
+
+To redeploy after deployment for updates
+
+npm run build
+firebase deploy

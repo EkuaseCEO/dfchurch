@@ -7,6 +7,7 @@ import authRoutes from './routes/auth.route.js'
 import postRoutes from './routes/post.route.js'
 import commentRoutes from './routes/comment.route.js'
 import path from 'path'
+import cors from 'cors'
 
 dotenv.config();
 
@@ -22,6 +23,15 @@ const __dirname = path.resolve();
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
+
+app.use(cors({
+  origin: [
+    "http://localhost:5173",           // local dev
+    "https://dfchurch-304a0.web.app", // Firebase hosting
+    "https://your-project-id.firebaseapp.com"
+  ],
+  credentials: true
+}));
 
 
 

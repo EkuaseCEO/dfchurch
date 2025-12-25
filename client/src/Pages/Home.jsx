@@ -8,13 +8,14 @@ import DaysofService from '../components/daysofService';
 import Slider from '../components/Slider';
 import PhotoSlide from '../components/Slider';
 import Welcome from '../components/welcome';
+import { apiFetch } from '../../../src/api';
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
 
     useEffect(() => {
     const fetchPosts = async () => {
-      const res = await fetch('/api/post/getPosts');
+      const res = await apiFetch('/api/post/getPosts');
       const data = await res.json();
       setPosts(data.posts);
     };
@@ -22,6 +23,10 @@ export default function Home() {
   }, []);
 
   const approvedPosts = posts.filter(post => post.postStatus === 'Approved');
+
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+  console.log(API_BASE_URL || "Nothing")
 
   return (
     <div>
