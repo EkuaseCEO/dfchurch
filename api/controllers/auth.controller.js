@@ -50,12 +50,25 @@ export const signin = async (req, res, next) => {
         // This line exclude the password from being sent to the client side
       const { password: pass, ...rest } = validUser._doc;
   
+      // res
+      //   .status(200)
+      //   .cookie('access_token', token, {
+      //     httpOnly: true,
+      //   })
+      //   .json(rest);
+
       res
-        .status(200)
-        .cookie('access_token', token, {
-          httpOnly: true,
-        })
-        .json(rest);
+  .status(200)
+  .cookie('access_token', token, {
+    httpOnly: true,
+    secure: true,       // required for HTTPS (production)
+    sameSite: 'none',   // allows Firebase frontend -> Render backend
+    maxAge: 24 * 60 * 60 * 1000, // 1 day
+  })
+  .json(rest);
+
+
+        
     } catch (error) {
       next(error);
     }
