@@ -23,6 +23,7 @@ import { useDispatch } from 'react-redux';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
 import { apiFetch } from '../../../src/api';
+import { apiFetchBack } from '../../../src/backendapi';
 
 export default function DashProfile() {
   const { currentUser, error, loading } = useSelector((state) => state.user);
@@ -124,7 +125,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   try {
     dispatch(updateStart());
 
-    const data = await apiFetch(`/user/update/${currentUser._id}`, {
+    const data = await apiFetchBack(`/user/update/${currentUser._id}`, {
       method: 'PUT',
       body: JSON.stringify(formData),
     });
