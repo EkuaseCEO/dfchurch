@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { Button, Label, TextInput, Alert, Spinner } from 'flowbite-react';
 import { Link, useNavigate } from 'react-router-dom';
 import CallToAction from '../components/CallToAction';
+import { apiFetch } from '../../../src/api';
 
 
 
@@ -27,17 +28,17 @@ function SignUp() {
     try {
       setLoading(true);
       setErrorMessage(null);
-      const res = await fetch('/api/auth/signup', {
+      const res = await apiFetch('/auth/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
-      const data = await res.json();
-      if (data.success === false) {
-        return setErrorMessage(data.message);
+      // const data = await res.json();
+      if (res.success === false) {
+        return setErrorMessage(res.message);
       }
       setLoading(false);
-      if(res.ok) {
+      if(res) {
         navigate('/SignIn');
       }
     } catch (error) {

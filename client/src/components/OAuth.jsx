@@ -5,6 +5,7 @@ import { app } from '../../firebase';
 import { useDispatch } from 'react-redux';
 import { signInSuccess } from '../redux/user/userSlice';
 import { useNavigate } from 'react-router-dom';
+import { apiFetch } from '../../../src/api';
 
 export default function OAuth() {
     const auth = getAuth(app)
@@ -16,7 +17,7 @@ export default function OAuth() {
         provider.setCustomParameters({ prompt: 'select_account' })
         try {
             const resultsFromGoogle = await signInWithPopup(auth, provider)
-            const res = await fetch('/api/auth/google', {
+            const data = await apiFetch('/auth/google', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -25,10 +26,10 @@ export default function OAuth() {
                     googlePhotoUrl: resultsFromGoogle.user.photoURL,
                 }),
                 })
-            const data = await res.json()
-            if (res.ok){
-                dispatch(signInSuccess(data))
-                navigate('/Dashboard')
+            // const data = await res.json()
+            if (data){
+                  dispatch(signInSuccess(data));
+                     navigate("/Dashboard");
             }
         } catch (error) {
             console.log(error);

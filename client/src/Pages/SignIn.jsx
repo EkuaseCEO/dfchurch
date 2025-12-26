@@ -11,6 +11,7 @@ import {
 } from '../redux/user/userSlice';
 import OAuth from '../components/OAuth';
 import CallToAction from '../components/CallToAction';
+import { apiFetch } from '../../../src/api';
 
 
 export default function SignIn() {
@@ -35,18 +36,19 @@ export default function SignIn() {
     }
     try {
       dispatch(signInStart());
-      const res = await fetch('/api/auth/signin', {
+      const res = await apiFetch('/auth/signin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
-      const data = await res.json();
-      if (data.success === false) {
-        dispatch(signInFailure(data.message));
+      // const data = await res.json();
+      if (res.success === false) {
+        dispatch(signInFailure(res.message));
+        return;
       }
 
-      if (res.ok) {
-        dispatch(signInSuccess(data));
+      if (res) {
+        dispatch(signInSuccess(res));
         navigate('/Dashboard');
       }
     } catch (error) {
@@ -110,11 +112,11 @@ export default function SignIn() {
               Sign Up
             </Link>
           </div>
-          {errorMessage && (
+          {/* {errorMessage && (
             <Alert className='mt-5' color='failure'>
               {errorMessage}
             </Alert>
-          )}
+          )} */}
         </div>
       </div>
       <CallToAction />

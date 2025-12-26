@@ -8,7 +8,7 @@ export default function YoutubeLive() {
             const fetchPosts = async () => {
                   try {
                     const res = await apiFetch('/post/getSettings');
-                    console.log(res.Settings[0]);
+                    // console.log(res.Settings[0]);
                     setSettings(res.Settings[0]);
                   } catch (err) {
                     console.error("Fetch failed:", err);

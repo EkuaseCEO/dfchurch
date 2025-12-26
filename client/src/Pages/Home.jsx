@@ -12,15 +12,35 @@ import { apiFetch } from '../../../src/api';
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
+  const [setting, setSetting] = useState([]);
 
     useEffect(() => {
     const fetchPosts = async () => {
-      const res = await apiFetch('/api/post/getPosts');
-      const data = await res.json();
-      setPosts(data.posts);
+     try {
+       const res = await apiFetch('/post/getPosts');
+      // const data = await res.json();
+      // console.log(res)
+      setPosts(res.posts);
+     } catch (error) {
+      console.log(error)
+     }
     };
     fetchPosts();
   }, []);
+
+
+       useEffect(() => {
+              const fetchSettings = async () => {
+                    try {
+                      const res = await apiFetch('/post/getSettings');
+                      // console.log(res.Settings[0]);
+                      setSetting(res.Settings[0]);
+                    } catch (err) {
+                      console.error("Fetch failed:", err);
+                    }
+                  };
+            fetchSettings(); 
+          }, []);
 
   const approvedPosts = posts.filter(post => post.postStatus === 'Approved');
 
@@ -39,8 +59,8 @@ export default function Home() {
           <div className='flex flex-col gap-6'>
             <h2 className='text-2xl font-semibold text-center'>Recent Updates</h2>
             <div className='flex flex-wrap gap-4'>
-              {approvedPosts.map((post) => (
-                <PostCard key={post._id} post={post} />
+              {approvedPosts.map((posts) => (
+                <PostCard key={posts._id} posts={posts} />
               ))}
             </div>
            
@@ -52,7 +72,7 @@ export default function Home() {
           WELCOME TO DOMINION FAITH CHAPEL
         </div> */}
 
-      <DaysofService />
+      <DaysofService setting={setting} />
 
       <YoutubeLive />
 

@@ -8,15 +8,22 @@ import { apiFetch } from '../../../src/api';
 export default function Recent() {
   const [posts, setPosts] = useState([]);
 
-    useEffect(() => {
-    const fetchPosts = async () => {
-      const res = await apiFetch('/api/post/getPosts');
-      const data = await res.json();
-      setPosts(data.posts);
-    };
-    fetchPosts();
-  }, []);
+      useEffect(() => {
+      const fetchPosts = async () => {
+       try {
+         const res = await apiFetch('/post/getPosts');
+        // const data = await res.json();
+        // console.log(res)
+        setPosts(res.posts);
+       } catch (error) {
+        console.log(error)
+       }
+      };
+      fetchPosts();
+    }, []);
 
+     const approvedPosts = posts.filter(post => post.postStatus === 'Approved');
+  
   return (
     <div>
           {/* <section>
@@ -52,12 +59,12 @@ export default function Recent() {
     
             
       <div className='max-w-6xl mx-auto p-3 flex flex-col gap-8 py-7'>
-        {posts && posts.length > 0 && (
+        {approvedPosts && approvedPosts.length > 0 && (
           <div className='flex flex-col gap-6'>
             <h2 className='text-2xl font-semibold text-center'>Recent Business Posts</h2>
             <div className='flex flex-wrap gap-4'>
-              {posts.map((post) => (
-                <PostCard key={post._id} post={post} />
+              {posts.map((posts) => (
+                <PostCard key={posts._id} posts={posts} />
               ))}
             </div>
            

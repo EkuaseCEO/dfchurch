@@ -1,28 +1,32 @@
 import { Button } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { MdDateRange } from "react-icons/md";
+import { apiFetch } from '../../../src/api';
 
 export default function CallToAction() {
-     const [posts, setPosts] = useState([]);
+     const [programposts, setProgramPosts] = useState([]);
     
         useEffect(() => {
-        const fetchPosts = async () => {
-          const res = await fetch('/api/post/getProgramPosts');
-          const data = await res.json();
-          // console.log(data.getprogramposts)
-          setPosts(data.getprogramposts);
+        const fetchProgramPosts = async () => {
+         try {
+           const res = await apiFetch('/post/getProgramPosts');
+          console.log(res)
+          setProgramPosts(res.getprogramposts);
+         } catch (error) {
+          console.log(error)
+         }
         };
-        fetchPosts();
+        fetchProgramPosts();
       }, []);
 
-     const cleanText = posts.content?.replace(/<\/?[^>]+(>|$)/g, "") || "";
+     const cleanText = programposts.content?.replace(/<\/?[^>]+(>|$)/g, "") || "";
 
   return (
     <div className='flex flex-col sm:flex-row p-3 border border-teal-500 justify-center items-center rounded-tl-3xl rounded-br-3xl text-center'>
         <div className="flex-1 justify-center flex flex-col">
             <h2 className='text-2xl'>
                
-            {posts.title}
+            {programposts.title}
                         
             </h2>
             <p className='text-gray-500 my-2'>
@@ -35,7 +39,7 @@ export default function CallToAction() {
             </Button> */}
         </div>
         <div className="p-7 flex-1">
-            <img src={posts.image} />
+            <img src={programposts.image} />
         </div>
     </div>
   )

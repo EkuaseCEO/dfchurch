@@ -7,21 +7,26 @@ import { MdOutlinePhoneInTalk } from "react-icons/md";
 import { FaFacebook } from "react-icons/fa";
 import { FaYoutube } from "react-icons/fa";
 import { FaSquareInstagram } from "react-icons/fa6";
+import { apiFetch } from '../../../src/api';
 
 
-export default function DaysofService() {
+export default function DaysofService({setting}) {
 
-    const [posts, setPosts] = useState([]);
+    // const [posts, setPosts] = useState([]);
         
-            useEffect(() => {
-            const fetchPosts = async () => {
-              const res = await fetch('/api/post/getSettings');
-              const data = await res.json();
-              console.log(data.Settings[0])
-              setPosts(data.Settings[0]);
-            };
-            fetchPosts();
-          }, []);
+    //         useEffect(() => {
+    //         const fetchPosts = async () => {
+    //          try {
+    //            const res = await apiFetch('/post/getSettings');
+    //           const data = await res.json();
+    //           console.log(data.Settings[0])
+    //           setPosts(res.Settings[0]);
+    //          } catch (error) {
+    //           console.log(error)
+    //          }
+    //         };
+    //         fetchPosts();
+    //       }, []);
   return (
     <div>
   <div className="flex justify-center space-x-12 my-6 p-11">
@@ -75,9 +80,9 @@ export default function DaysofService() {
    <p className='text-2xl mb-10'> 000-000-0000 </p>
    <div className='flex flex-row space-x-5'>
   
-  <span className='text-3xl'><a href={posts.facebook}><FaFacebook/></a></span>  
-  <span className='text-3xl'><a href={posts.instagram}><FaSquareInstagram/></a></span>  
-  <span className='text-3xl'><a href={posts.youtube}><FaYoutube/></a></span>  
+  <a href={setting.facebook}><span className='text-3xl'><FaFacebook /></span> </a> 
+  <span className='text-3xl'><a href={setting.instagram}><FaSquareInstagram/></a></span>  
+  <span className='text-3xl'><a href={setting.youtube}><FaYoutube/></a></span>  
 
   </div>
    </div>

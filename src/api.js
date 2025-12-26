@@ -29,7 +29,9 @@ export const apiFetch = async (endpoint, options = {}) => {
 // const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // export const apiFetch = async (endpoint, options = {}) => {
-//   const res = await fetch(`${API_BASE_URL}${endpoint}`, {
+//   const url = `${API_BASE_URL}${endpoint}`;
+
+//   const res = await fetch(url, {
 //     headers: {
 //       "Content-Type": "application/json",
 //       ...options.headers,
@@ -37,9 +39,22 @@ export const apiFetch = async (endpoint, options = {}) => {
 //     ...options,
 //   });
 
-//   if (!res.ok) {
-//     throw new Error("API request failed");
+//   // Helpful debug if backend returns HTML instead of JSON
+//   const contentType = res.headers.get("content-type");
+//   if (!contentType || !contentType.includes("application/json")) {
+//     const text = await res.text();
+//     console.error("Expected JSON but got:", text);
+//     throw new Error("API did not return JSON");
 //   }
 
-//   return res.json();
+//   if (!res.ok) {
+//     throw new Error(`API request failed with status ${res.status}`);
+//   }
+
+//   return res; // ✅ return raw Response
 // };
+
+
+
+
+

@@ -30,7 +30,8 @@ app.use(cors({
     // "https://dfchurch-304a0.web.app", // Firebase hosting
       "https://dfc-lcek.onrender.com",
     "https://dfchurch-304a0.web.app", // Firebase hosting
-    "https://dfchurch-304a0.firebaseapp.com"
+    "https://dfchurch-304a0.firebaseapp.com",
+    "https://dfc-lcek.onrender.com/api"
   ],
    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],

@@ -21,6 +21,7 @@ import {
 } from '../redux/user/userSlice';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
 import { toggleTheme } from '../redux/theme/themeSlice';
+import { apiFetch } from '../../../src/api';
 
 
 function Header() {
@@ -53,16 +54,20 @@ const handleSignout = async () => {
 
   const ExitApplication = async () => {
     try {
-      const res = await fetch('/api/user/signout', {
+      const res = await apiFetch('/user/signout', {
         method: 'POST',
       });
-      const data = await res.json();
-      if (!res.ok) {
-        console.log(data.message);
-      } else {
+      // const data = await res.json();
         dispatch(signoutSuccess());
-         setShowModal(false);
-      }
+        setShowModal(false);
+
+      // if (res) {
+      //   // console.log(res.message);
+      //   setShowModal(false);
+      // } else {
+      //   dispatch(signoutSuccess());
+      //    setShowModal(false);
+      // }
     } catch (error) {
       console.log(error.message);
     }

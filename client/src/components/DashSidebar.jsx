@@ -16,6 +16,7 @@ import { signoutSuccess } from '../redux/user/userSlice';
 import { CiSettings } from "react-icons/ci";
 import { IoShareSocialSharp } from "react-icons/io5";
 import { TbListDetails } from "react-icons/tb";
+import { apiFetch } from '../../../src/api';
 
 
 export default function DashSidebar() {
@@ -41,15 +42,17 @@ export default function DashSidebar() {
 
   const ExitApplication = async () => {
     try {
-      const res = await fetch('/api/user/signout', {
+      const res = await apiFetch('/user/signout', {
         method: 'POST',
       });
-      const data = await res.json();
-      if (!res.ok) {
-        console.log(data.message);
-      } else {
         dispatch(signoutSuccess());
-      }
+              setShowModal(false);
+      // const data = await res.json();
+      // if (!res.ok) {
+      //   console.log(data.message);
+      // } else {
+      //   dispatch(signoutSuccess());
+      // }
     } catch (error) {
       console.log(error.message);
     }

@@ -36,7 +36,8 @@ export default function DashProfile() {
   const [formData, setFormData] = useState({});
   const filePickerRef = useRef();
   const dispatch = useDispatch();
-
+  
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -113,7 +114,7 @@ export default function DashProfile() {
     }
     try {
       dispatch(updateStart());
-      const res = await fetch(`/api/user/update/${currentUser._id}`, {
+      const res = await fetch(`${API_BASE_URL}/user/update/${currentUser._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
