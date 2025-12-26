@@ -22,6 +22,7 @@ import {
 import { useDispatch } from 'react-redux';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
+import { apiFetch } from '../../../src/api';
 
 export default function DashProfile() {
   const { currentUser, error, loading } = useSelector((state) => state.user);
@@ -100,40 +101,79 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
+
+
+  
+
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setUpdateUserError(null);
-    setUpdateUserSuccess(null);
-    if (Object.keys(formData).length === 0) {
-      setUpdateUserError('No changes made');
-      return;
-    }
-    if (imageFileUploading) {
-      setUpdateUserError('Please wait for image to upload');
-      return;
-    }
-    try {
-      dispatch(updateStart());
-      const res = await fetch(`${API_BASE_URL}/user/update/${currentUser._id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        dispatch(updateFailure(data.message));
-        setUpdateUserError(data.message);
-      } else {
-        dispatch(updateSuccess(data));
-        setUpdateUserSuccess("User's profile updated successfully");
-      }
-    } catch (error) {
-      dispatch(updateFailure(error.message));
-      setUpdateUserError(error.message);
-    }
-  };
+  e.preventDefault();
+
+  setUpdateUserError(null);
+  setUpdateUserSuccess(null);
+
+  if (Object.keys(formData).length === 0) {
+    setUpdateUserError('No changes made');
+    return;
+  }
+
+  if (imageFileUploading) {
+    setUpdateUserError('Please wait for image to upload');
+    return;
+  }
+
+  try {
+    dispatch(updateStart());
+
+    const data = await apiFetch(`/user/update/${currentUser._id}`, {
+      method: 'PUT',
+      body: JSON.stringify(formData),
+    });
+
+    // ✅ success (apiFetch throws on failure)
+    dispatch(updateSuccess(data));
+    setUpdateUserSuccess("User's profile updated successfully");
+
+  } catch (error) {
+    dispatch(updateFailure(error.message));
+    setUpdateUserError(error.message);
+  }
+};
+
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setUpdateUserError(null);
+  //   setUpdateUserSuccess(null);
+  //   if (Object.keys(formData).length === 0) {
+  //     setUpdateUserError('No changes made');
+  //     return;
+  //   }
+  //   if (imageFileUploading) {
+  //     setUpdateUserError('Please wait for image to upload');
+  //     return;
+  //   }
+  //   try {
+  //     dispatch(updateStart());
+  //     const res = await fetch(`/api/user/update/${currentUser._id}`, {
+  //       method: 'PUT',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify(formData),
+  //     });
+  //     const data = await res.json();
+  //     if (!res.ok) {
+  //       dispatch(updateFailure(data.message));
+  //       setUpdateUserError(data.message);
+  //     } else {
+  //       dispatch(updateSuccess(data));
+  //       setUpdateUserSuccess("User's profile updated successfully");
+  //     }
+  //   } catch (error) {
+  //     dispatch(updateFailure(error.message));
+  //     setUpdateUserError(error.message);
+  //   }
+  // };
   const handleDeleteUser = async () => {
     setShowModal(false);
     try {
