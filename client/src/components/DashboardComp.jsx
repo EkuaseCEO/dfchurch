@@ -9,6 +9,7 @@ import {
 import { Button, Table, TableCell, TableBody, TableHead, TableHeadCell, TableRow } from 'flowbite-react';
 import { Link } from 'react-router-dom';
 import { apiFetchBack } from '../../../src/backendapi';
+import { apiFetch } from '../../../src/api';
 
 export default function DashboardComp() {
   const [users, setUsers] = useState([]);
@@ -23,21 +24,19 @@ export default function DashboardComp() {
   const { currentUser } = useSelector((state) => state.user);
 
   useEffect(() => {
-    const fetchUsers = async () => {
-    
-        const res = await apiFetchBack('/user/getusers?limit=5');
-        // const data = await res.json();
-         if (!res?.users) return;
+const fetchUsers = async () => {
+  try {
+    const res = await apiFetch('/user/getusers?limit=5');
 
-       
-          setUsers(res.users);
-          setTotalUsers(res.totalUsers);
-          setLastMonthUsers(res.lastMonthUsers);
-        
-    
-        console.log(error.message);
-      
-    };
+    if (!res || !res.users) return;
+
+    setUsers(res.users);
+    setTotalUsers(res.totalUsers);
+    setLastMonthUsers(res.lastMonthUsers);
+  } catch (error) {
+    console.error('Fetch users failed:', error.message);
+  }
+};
 
     const fetchPosts = async () => {
       try {
