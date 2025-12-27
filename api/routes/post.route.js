@@ -1,6 +1,6 @@
 import express from 'express';
 import { verifyToken } from '../utils/verifyUser.js';
-import { Approvepost, create, deletepost, getposts, getProgramPosts, getSettings, getUserPostPerMonth, programposting, updatepost, updateSetting } from '../controllers/post.controller.js';
+import { Approvepost, create, deletepost, getposts, getProgramPosts, getSettings, getUserPostPerMonth, programposting, updatepost, updateSetting, uploadProfileImage } from '../controllers/post.controller.js';
 
 const router = express.Router();
 
@@ -14,6 +14,7 @@ router.put('/updatepost/:postId', updatepost)
 router.put('/updateSetting/:postIds', updateSetting)
 router.put('/Approvepost/:postId', Approvepost)
 router.get('/getSettings/', getSettings)
+router.post('/profile', upload.single('image'), uploadProfileImage);
 
 
 export default router;

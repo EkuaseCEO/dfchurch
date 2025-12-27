@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
 import { FaCheck, FaTimes } from 'react-icons/fa';
+import { apiFetchBack } from "../../../src/backendapi";
 
 export default function DashComments() {
   const { currentUser } = useSelector((state) => state.user);
@@ -14,11 +15,11 @@ export default function DashComments() {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const res = await fetch(`/api/comment/getcomments`);
-        const data = await res.json();
-        if (res.ok) {
-          setComments(data.comments);
-          if (data.comments.length < 9) {
+        const res = await apiFetchBack(`/comment/getcomments`);
+        // const data = await res.json();
+        if (res) {
+          setComments(res.comments);
+          if (res.comments.length < 9) {
             setShowMore(false);
           }
         }
@@ -26,7 +27,7 @@ export default function DashComments() {
         console.log(error.message);
       }
     };
-    if (currentUser.isAdmin) {
+    if (currentUser.isAdmin == "true") {
       fetchComments();
     }
   }, [currentUser._id]);
@@ -34,13 +35,13 @@ export default function DashComments() {
   const handleShowMore = async () => {
     const startIndex = comments.length;
     try {
-      const res = await fetch(
-        `/api/comment/getcomments?startIndex=${startIndex}`
+      const res = await apiFetchBack(
+        `/comment/getcomments?startIndex=${startIndex}`
       );
-      const data = await res.json();
-      if (res.ok) {
-        setComments((prev) => [...prev, ...data.comments]);
-        if (data.comments.length < 9) {
+      // const data = await res.json();
+      if (res) {
+        setComments((prev) => [...prev, ...res.comments]);
+        if (res.comments.length < 9) {
           setShowMore(false);
         }
       }
@@ -52,20 +53,20 @@ export default function DashComments() {
   const handleDeleteComment = async () => {
     setShowModal(false);
     try {
-      const res = await fetch(
-        `/api/comment/deleteComment/${commentIdToDelete}`,
+      const res = await apiFetchBack(
+        `/comment/deleteComment/${commentIdToDelete}`,
         {
           method: 'DELETE',
         }
       );
-      const data = await res.json();
-      if (res.ok) {
+      // const data = await res.json();
+      if (res) {
         setComments((prev) =>
           prev.filter((comment) => comment._id !== commentIdToDelete)
         );
         setShowModal(false);
       } else {
-        console.log(data.message);
+        console.log(res.message);
       }
     } catch (error) {
       console.log(error.message);

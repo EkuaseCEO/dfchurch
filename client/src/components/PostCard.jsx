@@ -5,8 +5,8 @@ export default function PostCard({ posts }) {
   
   return (
     <div className='group relative w-full border border-teal-500 hover:border-2 h-[400px] overflow-hidden rounded-lg sm:w-[430px] transition-all'>
-      {/* <Link to={`/post/${post.slug}`}> */}
-      <Link to={`/`}>
+      <Link to={`/post/${posts.slug}`}>
+      {/* <Link to={`/`}> */}
         <img
           src={posts.image}
           alt='post cover'

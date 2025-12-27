@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
 import { FaCheck, FaTimes } from 'react-icons/fa';
+import { apiFetchBack } from "../../../src/backendapi";
 
 export default function DashUsers() {
   const { currentUser } = useSelector((state) => state.user);
@@ -17,11 +18,11 @@ export default function DashUsers() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await fetch(`/api/user/getusers`);
-        const data = await res.json();
-        if (res.ok) {
-          setUsers(data.users);
-          if (data.users.length < 9) {
+        const res = await apiFetchBack(`/user/getusers`);
+        // const data = await res.json();
+        if (res) {
+          setUsers(res.users);
+          if (res.users.length < 9) {
             setShowMore(false);
           }
         }
@@ -29,7 +30,7 @@ export default function DashUsers() {
         console.log(error.message);
       }
     };
-    if (currentUser.isAdmin) {
+    if (currentUser.isAdmin == "true") {
       fetchUsers();
     }
   }, [currentUser._id]);
@@ -37,11 +38,11 @@ export default function DashUsers() {
   const handleShowMore = async () => {
     const startIndex = users.length;
     try {
-      const res = await fetch(`/api/user/getusers?startIndex=${startIndex}`);
-      const data = await res.json();
-      if (res.ok) {
-        setUsers((prev) => [...prev, ...data.users]);
-        if (data.users.length < 9) {
+      const res = await apiFetchBack(`/user/getusers?startIndex=${startIndex}`);
+      // const data = await res.json();
+      if (res) {
+        setUsers((prev) => [...prev, ...res.users]);
+        if (res.users.length < 9) {
           setShowMore(false);
         }
       }
@@ -52,15 +53,15 @@ export default function DashUsers() {
 
   const handleDeleteUser = async () => {
     try {
-        const res = await fetch(`/api/user/delete/${userIdToDelete}`, {
+        const res = await apiFetchBack(`/user/delete/${userIdToDelete}`, {
             method: 'DELETE',
         });
-        const data = await res.json();
-        if (res.ok) {
+        // const data = await res.json();
+        if (res) {
             setUsers((prev) => prev.filter((user) => user._id !== userIdToDelete));
             setShowModal(false);
         } else {
-            console.log(data.message);
+            console.log(res.message);
         }
     } catch (error) {
         console.log(error.message);
@@ -68,39 +69,66 @@ export default function DashUsers() {
   };
 
 
+const handleUserUpdate = async () => {
+  setShowModalAdmin(false);
 
-
-   const handleUserUpdate = async () => {
-    
-    setShowModalAdmin(false)
-    try {
-      const res = await fetch(`/api/user/updateUserStatus/${userIdToDelete}`, {
+  try {
+    const updatedUser = await apiFetchBack(
+      `/user/updateUserStatus/${userIdToDelete}`,
+      {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-         body: JSON.stringify({
-        isAdmin: clientIdToUpdate,
-      }),
-      });
-      const data = await res.json(); 
-      if (!res.ok) {
-        setPublishError(data.message);
-        return;
+        body: JSON.stringify({
+          isAdmin: clientIdToUpdate,
+        }),
       }
+    );
 
-      if (res.ok) {
-        setPublishError(null);
-        navigate(`/post/${data.slug}`);
-      }
-    } catch (error) {
-      setPublishError('Something went wrong');
-    }
-  };
+    if (!updatedUser) return;
+
+    // 🔥 update users list instantly
+    setUsers((prev) =>
+      prev.map((user) =>
+        user._id === updatedUser._id ? updatedUser : user
+      )
+    );
+
+    setPublishError(null);
+  } catch (error) {
+    setPublishError(error.message || 'Something went wrong');
+  }
+};
+
+
+  //  const handleUserUpdate = async () => {
+    
+  //   setShowModalAdmin(false)
+  //   try {
+  //     const res = await apiFetchBack(`/user/updateUserStatus/${userIdToDelete}`, {
+  //       method: 'PUT',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //        body: JSON.stringify({
+  //       isAdmin: clientIdToUpdate,
+  //     }),
+  //     });
+  //     // const data = await res.json(); 
+  //     if (!res) {
+  //       setPublishError(res.message);
+  //       return;
+  //     }
+
+  //     if (res) {
+  //       setPublishError(null);
+  //     }
+  //   } catch (error) {
+  //     setPublishError('Something went wrong');
+  //   }
+  // };
 
   return (
     <div className='table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500'>
-      {currentUser.isAdmin && users.length > 0 ? (
+      {currentUser.isSuperAdmin && users.length > 0 ? (
         <>
           <Table hoverable className='shadow-md'>
             <TableHead>

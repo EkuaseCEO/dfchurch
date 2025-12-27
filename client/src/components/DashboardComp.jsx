@@ -127,7 +127,9 @@ const fetchUsers = async () => {
         </div>
       </div>
       <div className='flex flex-wrap gap-4 py-3 mx-auto justify-center'>
-        <div className='flex flex-col w-full md:w-auto shadow-md p-2 rounded-md dark:bg-gray-800'>
+         {currentUser.isSuperAdmin ? 
+         <>
+           <div className='flex flex-col w-full md:w-auto shadow-md p-2 rounded-md dark:bg-gray-800'>
           <div className='flex justify-between  p-3 text-sm font-semibold'>
             <h1 className='text-center p-2'>Recent users</h1>
             <Button outline gradientDuoTone='purpleToPink'>
@@ -156,6 +158,12 @@ const fetchUsers = async () => {
               ))}
           </Table>
         </div>
+         </>
+        : "" 
+        
+        }
+      
+
         <div className='flex flex-col w-full md:w-auto shadow-md p-2 rounded-md dark:bg-gray-800'>
           <div className='flex justify-between  p-3 text-sm font-semibold'>
             <h1 className='text-center p-2'>Recent comments</h1>
@@ -183,7 +191,7 @@ const fetchUsers = async () => {
         </div>
         <div className='flex flex-col w-full md:w-auto shadow-md p-2 rounded-md dark:bg-gray-800'>
           <div className='flex justify-between  p-3 text-sm font-semibold'>
-            <h1 className='text-center p-2'>Recent Projects</h1>
+            <h1 className='text-center p-2'>Recent Business Post</h1>
             <Button outline gradientDuoTone='purpleToPink'>
               <Link to={'/dashboard?tab=posts'}>See all</Link>
             </Button>

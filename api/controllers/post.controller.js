@@ -304,3 +304,27 @@ export const Approvepost = async (req, res, next) => {
 };
 
 
+
+export const uploadProfileImage = async (req, res, next) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: 'No file uploaded' });
+    }
+
+    const result = await cloudinary.v2.uploader.upload(
+      `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`,
+      {
+        folder: 'profiles',
+        transformation: [{ width: 400, height: 400, crop: 'fill' }],
+      }
+    );
+
+    res.status(200).json({
+      url: result.secure_url,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+

@@ -78,40 +78,74 @@ export default function DashPosts() {
     }
   };
 
+const handleUpdate = async () => {
+  setShowModalPost(false);
 
-   const handleUpdate = async () => {
-     setShowModalPost(false);
-    //  console.log(clientIdToUpdate)
-    try {
-      
-      const res = await fetch(`/api/post/Approvepost/${postIdToDelete}`, {
+  try {
+    const updatedPost = await apiFetchBack(
+      `/post/Approvepost/${postIdToDelete}`,
+      {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      //  body: JSON.stringify({
-      //   postStatus: 'Approved',
-      // }),
         body: JSON.stringify({
-        postStatus: clientIdToUpdate,
-      }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setPublishError(data.message);
-        return;
+          postStatus: clientIdToUpdate,
+        }),
       }
+    );
 
-      if (res.ok) {
-        setPublishError(null);
-        navigate(`/posts`);
-        // navigate(`/post/${data.slug}`, { replace: true });
-        // window.location.reload();
-      }
-    } catch (error) {
-      setPublishError('Something went wrong');
-    }
-  };
+    if (!updatedPost) return;
+
+    // 🔥 update UI immediately
+    setUserPosts((prev) =>
+      prev.map((post) =>
+        post._id === updatedPost._id ? updatedPost : post
+      )
+    );
+
+    setPublishError(null);
+  } catch (error) {
+    setPublishError(error.message || 'Something went wrong');
+  }
+};
+
+
+  //  const handleUpdate = async () => {
+  //    setShowModalPost(false);
+  //   //  console.log(clientIdToUpdate)
+  //   try {
+      
+  //     const res = await apiFetchBack(`/post/Approvepost/${postIdToDelete}`, {
+  //       method: 'PUT',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //     //  body: JSON.stringify({
+  //     //   postStatus: 'Approved',
+  //     // }),
+  //       body: JSON.stringify({
+  //       postStatus: clientIdToUpdate,
+  //     }),
+  //     });
+  //     // const data = await res.json();
+  //     if (!res) {
+  //       setPublishError(res.message);
+  //       return;
+  //     }
+
+  //     if (res) {
+  //        setUserPosts((prev) =>
+  //   prev.map((post) =>
+  //     post._id === updatedPost._id ? updatedPost : post
+  //   )
+  // );
+  //       setPublishError(null);
+  //       // navigate(`/posts`);
+  //       // navigate(`/post/${data.slug}`, { replace: true });
+  //       // window.location.reload();
+  //     }
+  //   } catch (error) {
+  //     setPublishError('Something went wrong');
+  //   }
+  // };
 
   return (
    <div className='table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500'>
