@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 // import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
 import { Button, Table, Modal, ModalBody, ModalFooter, ModalHeader, TableHead, TableHeadCell, TableCell, TableRow, TableBody } from "flowbite-react";
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
+import { apiFetch } from '../../../src/api';
 
 export default function MyPosts() {
   const { currentUser } = useSelector((state) => state.user);
@@ -12,14 +13,16 @@ export default function MyPosts() {
   const [showMore, setShowMore] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [postIdToDelete, setPostIdToDelete] = useState('');
+
+  
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const res = await fetch(`/api/post/getposts?userId=${currentUser._id}`);
-        const data = await res.json();
-        if (res.ok) {
-          setUserPosts(data.posts);
-          if (data.posts.length < 9) {
+        const res = await apiFetch(`/post/getposts?userId=${currentUser._id}`);
+        // const data = await res.json();
+        if (res) {
+          setUserPosts(res.posts);
+          if (res.posts.length < 9) {
             setShowMore(false);
           }
         }
@@ -53,15 +56,15 @@ export default function MyPosts() {
   const handleDeletePost = async () => {
     setShowModal(false);
     try {
-      const res = await fetch(
-        `/api/post/deletepost/${postIdToDelete}/${currentUser._id}`,
+      const res = await apiFetch(
+        `/post/deletepost/${postIdToDelete}/${currentUser._id}`,
         {
           method: 'DELETE',
         }
       );
-      const data = await res.json();
-      if (!res.ok) {
-        console.log(data.message);
+      // const data = await res.json();
+      if (!res) {
+        console.log(res.message);
       } else {
         setUserPosts((prev) =>
           prev.filter((post) => post._id !== postIdToDelete)

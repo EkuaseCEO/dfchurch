@@ -13,6 +13,7 @@ import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { apiFetchBack } from '../../../src/backendapi.js';
 
 
 export default function AdminPost() {
@@ -126,20 +127,20 @@ export default function AdminPost() {
     e.preventDefault();
     // navigate(`/Dashboard?tab=profile`);
     try {
-      const res = await fetch('/api/post/programposting', {
+      const res = await apiFetchBack('/post/programposting', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
       });
-      const data = await res.json();
-      if (!res.ok) {
-        setPublishError(data.message);
+      // const data = await res.json();
+      if (!res) {
+        setPublishError(res.message);
         return;
       }
 
-      if (res.ok) {
+      if (res) {
         setPublishError(null);
         navigate(`/Dashboard?tab=profile`);
       }

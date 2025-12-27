@@ -18,6 +18,7 @@ import { Cloudinary } from '@cloudinary/url-gen';
 import { auto } from '@cloudinary/url-gen/actions/resize';
 import { autoGravity } from '@cloudinary/url-gen/qualifiers/gravity';
 import { AdvancedImage } from '@cloudinary/react';
+import { apiFetch } from '../../../src/api';
 
 
 
@@ -75,16 +76,16 @@ export default function CreatePost() {
     // Check if user can post this month
     const checkMonthlyPost = async () => {
       try {
-          const res = await fetch(`/api/post/getUserPostPerMonth/${currentUser._id}`);
-          const data = await res.json();
-        console.log(data)
+          const res = await apiFetch(`/post/getUserPostPerMonth/${currentUser._id}`);
+          // const data = await res.json();
+        // console.log(data)
 
-       if (!res.ok) {
+       if (!res) {
         setCanPost(false);
-        setPublishError(data.message || "Cannot check post limit");
+        setPublishError(res.message || "Cannot check post limit");
       } else {
-        setCanPost(data.canPost);
-        setNextAllowedDate(data.nextAllowedDate);
+        setCanPost(res.canPost);
+        setNextAllowedDate(res.nextAllowedDate);
       }
     } catch (err) {
       console.error(err);
@@ -201,20 +202,20 @@ const handleUpdloadImage = async () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('/api/post/create', {
+      const res = await apiFetch('/post/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
       });
-      const data = await res.json();
-      if (!res.ok) {
-        setPublishError(data.message);
+      // const data = await res.json();
+      if (!res) {
+        setPublishError(res.message);
         return;
       }
 
-      if (res.ok) {
+      if (res) {
         setPublishError(null);
         // navigate(`/post/${data.slug}`);
         navigate(`/postSuccess`);

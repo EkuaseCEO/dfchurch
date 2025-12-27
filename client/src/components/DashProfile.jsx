@@ -131,7 +131,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
     });
 
     // ✅ success (apiFetch throws on failure)
-    dispatch(updateSuccess(data));
+    dispatch(updateSuccess(data.user));
     setUpdateUserSuccess("User's profile updated successfully");
 
   } catch (error) {

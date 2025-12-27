@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Button, Table, Modal, ModalBody, Select, ModalFooter, ModalHeader, TableHead, TableHeadCell, TableCell, TableRow, TableBody } from "flowbite-react";
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
+import { apiFetch } from '../../../src/api';
+import { apiFetchBack } from '../../../src/backendapi';
 
 export default function DashPosts() {
   const { currentUser } = useSelector((state) => state.user);
@@ -18,11 +20,11 @@ export default function DashPosts() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const res = await fetch(`/api/post/getposts?userId=${currentUser._id}`);
-        const data = await res.json();
-        if (res.ok) {
-          setUserPosts(data.posts);
-          if (data.posts.length < 9) {
+        const res = await apiFetch(`/post/getposts`);
+        // const data = await res.json();
+        if (res) {
+          setUserPosts(res.posts);
+          if (res.posts.length < 9) {
             setShowMore(false);
           }
         }
@@ -38,13 +40,13 @@ export default function DashPosts() {
   const handleShowMore = async () => {
     const startIndex = userPosts.length;
     try {
-      const res = await fetch(
-        `/api/post/getposts?userId=${currentUser._id}&startIndex=${startIndex}`
+      const res = await apiFetchBack(
+        `/post/getposts?userId=${currentUser._id}&startIndex=${startIndex}`
       );
-      const data = await res.json();
-      if (res.ok) {
-        setUserPosts((prev) => [...prev, ...data.posts]);
-        if (data.posts.length < 9) {
+      // const data = await res.json();
+      if (res) {
+        setUserPosts((prev) => [...prev, ...res.posts]);
+        if (res.posts.length < 9) {
           setShowMore(false);
         }
       }
@@ -57,15 +59,15 @@ export default function DashPosts() {
     setShowModal(false);
     
     try {
-      const res = await fetch(
-        `/api/post/deletepost/${postIdToDelete}/${currentUser._id}`,
+      const res = await apiFetchBack(
+        `/post/deletepost/${postIdToDelete}/${currentUser._id}`,
         {
           method: 'DELETE',
         }
       );
-      const data = await res.json();
-      if (!res.ok) {
-        console.log(data.message);
+      // const data = await res.json();
+      if (!res) {
+        console.log(res.message);
       } else {
         setUserPosts((prev) =>
           prev.filter((post) => post._id !== postIdToDelete)

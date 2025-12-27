@@ -14,6 +14,7 @@ import 'react-circular-progressbar/dist/styles.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { apiFetch } from '../../../src/api';
+import { apiFetchBack } from '../../../src/backendapi';
 
 export default function UpdatePost() {
   const [file, setFile] = useState(null);
@@ -30,15 +31,15 @@ export default function UpdatePost() {
     try {
       const fetchPost = async () => {
         const res = await apiFetch(`/post/getposts?postId=${postId}`);
-        const data = await res.json();
-        if (!res.ok) {
-          console.log(data.message);
-          setPublishError(data.message);
+        // const data = await res.json();
+        if (!res) {
+          console.log(res.message);
+          setPublishError(res.message);
           return;
         }
-        if (res.ok) {
+        if (res) {
           setPublishError(null);
-          setFormData(data.posts[0]);
+          setFormData(res.posts[0]);
         }
       };
 
@@ -90,20 +91,20 @@ export default function UpdatePost() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(`/api/post/updatepost/${postId}`, {
+      const res = await apiFetchBack(`/post/updatepost/${postId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
       });
-      const data = await res.json();
-      if (!res.ok) {
-        setPublishError(data.message);
+      // const data = await res.json();
+      if (!res) {
+        setPublishError(res.message);
         return;
       }
 
-      if (res.ok) {
+      if (res) {
         setPublishError(null);
         // navigate(`/post/${data.slug}`);
          navigate(`/postSuccess`);

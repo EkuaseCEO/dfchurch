@@ -8,6 +8,7 @@ import {
 } from 'react-icons/hi';
 import { Button, Table, TableCell, TableBody, TableHead, TableHeadCell, TableRow } from 'flowbite-react';
 import { Link } from 'react-router-dom';
+import { apiFetchBack } from '../../../src/backendapi';
 
 export default function DashboardComp() {
   const [users, setUsers] = useState([]);
@@ -20,28 +21,32 @@ export default function DashboardComp() {
   const [lastMonthPosts, setLastMonthPosts] = useState(0);
   const [lastMonthComments, setLastMonthComments] = useState(0);
   const { currentUser } = useSelector((state) => state.user);
+
   useEffect(() => {
     const fetchUsers = async () => {
-      try {
-        const res = await fetch('/api/user/getusers?limit=5');
-        const data = await res.json();
-        if (res.ok) {
-          setUsers(data.users);
-          setTotalUsers(data.totalUsers);
-          setLastMonthUsers(data.lastMonthUsers);
-        }
-      } catch (error) {
+    
+        const res = await apiFetchBack('/user/getusers?limit=5');
+        // const data = await res.json();
+         if (!res?.users) return;
+
+       
+          setUsers(res.users);
+          setTotalUsers(res.totalUsers);
+          setLastMonthUsers(res.lastMonthUsers);
+        
+    
         console.log(error.message);
-      }
+      
     };
+
     const fetchPosts = async () => {
       try {
-        const res = await fetch('/api/post/getposts?limit=5');
-        const data = await res.json();
-        if (res.ok) {
-          setPosts(data.posts);
-          setTotalPosts(data.totalPosts);
-          setLastMonthPosts(data.lastMonthPosts);
+        const res = await apiFetchBack('/post/getposts?limit=5');
+        // const data = await res.json();
+        if (res) {
+          setPosts(res.posts);
+          setTotalPosts(res.totalPosts);
+          setLastMonthPosts(res.lastMonthPosts);
         }
       } catch (error) {
         console.log(error.message);
@@ -49,23 +54,25 @@ export default function DashboardComp() {
     };
     const fetchComments = async () => {
       try {
-        const res = await fetch('/api/comment/getcomments?limit=5');
-        const data = await res.json();
-        if (res.ok) {
-          setComments(data.comments);
-          setTotalComments(data.totalComments);
-          setLastMonthComments(data.lastMonthComments);
+        const res = await apiFetchBack('/comment/getcomments?limit=5');
+        // const data = await res.json();
+        if (res) {
+          setComments(res.comments);
+          setTotalComments(res.totalComments);
+          setLastMonthComments(res.lastMonthComments);
         }
       } catch (error) {
         console.log(error.message);
       }
     };
-    if (currentUser.isAdmin) {
+    if (currentUser.isAdmin == "false") {
       fetchUsers();
       fetchPosts();
       fetchComments();
     }
   }, [currentUser]);
+
+
   return (
     <div className='p-3 md:mx-auto'>
       <div className='flex-wrap flex gap-4 justify-center'>
