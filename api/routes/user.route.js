@@ -9,8 +9,8 @@ router.put('/update/:userId', updateUser);
 // router.put('/update/:userId', updateuser);
 router.put('/updateUserStatus/:userId', updateUserStatus);
 router.delete('/delete/:userId', verifyToken, deleteUser);
-// router.get('/getusers', verifyToken, getUsers);
-router.get('/getusers', getUsers);
+router.get('/getusers', verifyToken, getUsers);
+// router.get('/getusers', getUsers);
 router.post('/signout', signout);
 router.get('/:userId', getUser);
 

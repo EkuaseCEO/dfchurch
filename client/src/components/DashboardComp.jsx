@@ -26,7 +26,7 @@ export default function DashboardComp() {
   useEffect(() => {
 const fetchUsers = async () => {
   try {
-    const res = await apiFetch('/user/getusers?limit=5');
+    const res = await apiFetchBack('/user/getusers?limit=5');
 
     if (!res || !res.users) return;
 
@@ -64,7 +64,7 @@ const fetchUsers = async () => {
         console.log(error.message);
       }
     };
-    if (currentUser.isAdmin == "false") {
+    if (currentUser.isAdmin == "true") {
       fetchUsers();
       fetchPosts();
       fetchComments();
