@@ -1,5 +1,6 @@
 import express from 'express';
 import { verifyToken } from '../utils/verifyUser.js';
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
 import { Approvepost, create, deletepost, getposts, getProgramPosts, getSettings, getUserPostPerMonth, programposting, updatepost, updateSetting, uploadProfileImage } from '../controllers/post.controller.js';
 
 
