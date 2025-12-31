@@ -97,7 +97,7 @@ const handleSignout = async () => {
           <img src='../Rccg_logo.png' className='h-10 w-10' alt='RCCG Logo' />
         </Link>
         
-        <form onSubmit={handleSubmit} >
+        {/* <form onSubmit={handleSubmit} >
             <TextInput 
             type='text'
             placeholder='Search...'
@@ -106,10 +106,10 @@ const handleSignout = async () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             />
-        </form>
-        <Button className='w-12 h-10 lg:hidden' color='gray'  pill > 
-        <AiOutlineSearch />
-        </Button>
+        </form> */}
+        <p className='  lg:hidden font-bold' color='gray'  pill > 
+        {/* <AiOutlineSearch /> */} Welcome to DFC
+        </p>
         <div className='flex gap-2 md:order-2'>
            <Button className='w-12 h-10 hidden sm:inline' color='gray' pill 
                        onClick={() => dispatch(toggleTheme())}>
@@ -159,8 +159,9 @@ const handleSignout = async () => {
           About
         </NavbarLink>
         <NavbarLink href="/Recent" active={loc.pathname === "/Recent"}>Updates</NavbarLink>
-        <NavbarLink href="/">Give</NavbarLink>
-        <NavbarLink href="/">Food Bank</NavbarLink>
+        <NavbarLink href="/Give">Give</NavbarLink>
+        <NavbarLink href="/Foodbank">Food Bank</NavbarLink>
+        {/* <NavbarLink href="/LiveService">Live</NavbarLink> */}
         <NavbarLink href="/Contact">Contact</NavbarLink>
         {currentUser ? 
         <NavbarLink href="/create-post" active={loc.pathname === "/create-post"}>Create Post</NavbarLink>

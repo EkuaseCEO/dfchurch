@@ -145,6 +145,7 @@ const handleUpdloadImage = async () => {
       //   image: response.secure_url, // ✅ Cloudinary image URL
       //   imagePublicId: data.public_id,
       // });
+      
        setFormData(prev => ({
         ...prev,
         image: data.secure_url,

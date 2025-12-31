@@ -8,6 +8,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './Pages/Home';
 import About from './Pages/About';
+import Give from './Pages/Give';
 import SignIn from './Pages/SignIn';
 import SignUp from './Pages/SignUp';
 import Projects from './Pages/Projects';
@@ -20,6 +21,8 @@ import Recent from './Pages/Recent';
 import PostPage from './components/PostPage';
 import PostSuccess from './Pages/postSuccess';
 import Contact from './Pages/contact';
+import Foodbank from './Pages/Foodbank';
+import LiveService from './Pages/LiveService';
 
 function App() {
 
@@ -29,6 +32,9 @@ function App() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/About" element={<About />} />
+      <Route path="/LiveService" element={<LiveService />} />
+      <Route path="/Give" element={<Give />} />
+      <Route path="/Foodbank" element={<Foodbank/>} />
       <Route path="/Contact" element={<Contact />} />
       <Route path="/postSuccess" element={<PostSuccess />} />
       <Route path="/SignIn" element={<SignIn />} />

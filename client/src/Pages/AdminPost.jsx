@@ -145,7 +145,7 @@ export default function AdminPost() {
         navigate(`/Dashboard?tab=profile`);
       }
     } catch (error) {
-      setPublishError('Something went wrong');
+      setPublishError(error);
     }
   };
   return (

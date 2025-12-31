@@ -29,7 +29,11 @@ export default function DaysofService({setting}) {
     //       }, []);
   return (
     <div>
+    <div className='text-center text-5xl font-bold mt-10'>
+      Days of Worship
+    </div>
   <div className="flex justify-center space-x-12 my-6 p-11">
+
 
   <div className="flex flex-col items-center text-center space-y-2">
      <span className="text-6xl">
