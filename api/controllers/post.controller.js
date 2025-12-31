@@ -74,7 +74,7 @@ export const create = async (req, res, next) => {
 };
 
 export const programposting = async (req, res, next) => {
-  if (!req.user.isAdmin) {
+  if (!req.user.isAdmin == "true") {
     return next(errorHandler(403, 'You are not allowed to create a post'));
   }
   if (!req.body.title || !req.body.content) {
