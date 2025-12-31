@@ -200,7 +200,7 @@ export default function DashProfile() {
         </Button>
 
         {currentUser.isAdmin === 'true' && (
-          <Link to="/Admin-post">
+          <Link to="/AdminPost">
             <Button type="button" gradientDuoTone="purpleToPink" className="w-full">
               Post a Program
             </Button>
