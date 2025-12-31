@@ -14,6 +14,7 @@ import 'react-circular-progressbar/dist/styles.css';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { apiFetchBack } from '../../../src/backendapi.js';
+import { apiFetch } from '../../../src/api.js';
 
 
 export default function AdminPost() {
@@ -127,7 +128,7 @@ export default function AdminPost() {
     e.preventDefault();
     // navigate(`/Dashboard?tab=profile`);
     try {
-      const res = await apiFetchBack('/post/programposting', {
+      const res = await apiFetch('/post/programposting', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -137,6 +138,7 @@ export default function AdminPost() {
       // const data = await res.json();
       if (!res) {
         setPublishError(res.message);
+
         return;
       }
 
