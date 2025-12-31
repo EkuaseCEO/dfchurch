@@ -138,7 +138,6 @@ export default function AdminPost() {
       // const data = await res.json();
       if (!res) {
         setPublishError(res.message);
-
         return;
       }
 
@@ -147,7 +146,7 @@ export default function AdminPost() {
         navigate(`/Dashboard?tab=profile`);
       }
     } catch (error) {
-      setPublishError(error);
+      setPublishError('Something went wrong');
     }
   };
   return (
