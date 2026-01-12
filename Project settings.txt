@@ -23,3 +23,10 @@ To redeploy after deployment for updates
 
 npm run build
 firebase deploy
+
+#######
+To commit to github and update render.com
+git add .
+git commit -m "adding"
+git pull
+git push

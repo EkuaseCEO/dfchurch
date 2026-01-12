@@ -1,7 +1,7 @@
 import express from 'express';
 import { verifyToken } from '../utils/verifyUser.js';
 
-import { Approvepost, create, deletepost, getposts, getProgramPosts, getSettings, getUserPostPerMonth, programposting, updatepost, updateSetting, uploadProfileImage } from '../controllers/post.controller.js';
+import { Approvepost, create, createprogram, deletepost, getposts, getProgramPosts, getSettings, getUserPostPerMonth, updatepost, updateSetting, uploadProfileImage } from '../controllers/post.controller.js';
 
 
 // const storage = new CloudinaryStorage({
@@ -16,7 +16,7 @@ import { Approvepost, create, deletepost, getposts, getProgramPosts, getSettings
 const router = express.Router();
 
 router.post('/create', verifyToken, create)
-router.post('/programposting', programposting)
+router.post('/createprogram', createprogram)
 router.get('/getposts', getposts)
 router.get('/getUserPostPerMonth/:userId', getUserPostPerMonth)
 router.get('/getProgramPosts', getProgramPosts)

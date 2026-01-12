@@ -128,7 +128,7 @@ export default function AdminPost() {
     e.preventDefault();
     // navigate(`/Dashboard?tab=profile`);
     try {
-      const res = await apiFetchBack('/post/programposting', {
+      const res = await apiFetch('/post/createprogram', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
