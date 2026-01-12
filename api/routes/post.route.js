@@ -16,7 +16,7 @@ import { Approvepost, create, createprogram, deletepost, getposts, getProgramPos
 const router = express.Router();
 
 router.post('/create', verifyToken, create)
-router.post('/createprogram', createprogram)
+router.post('/createprogram', verifyToken, createprogram)
 router.get('/getposts', getposts)
 router.get('/getUserPostPerMonth/:userId', getUserPostPerMonth)
 router.get('/getProgramPosts', getProgramPosts)
